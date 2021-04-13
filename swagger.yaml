@@ -1,0 +1,294 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Edufication Pages API
+security:
+  - bearerAuth: []
+paths:
+  /pages:
+    get:
+      operationId: listPages
+      summary: List pages.
+      description: Lists pages.
+      tags:
+        - Pages
+      parameters:
+        - name: path
+          in: query
+          description: path name to page
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of pages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Page"
+        "400":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createPage
+      summary: Create a page.
+      description: Creates a new page.
+      tags:
+        - Pages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Page"
+        description: Payload
+        required: true
+      responses:
+        "200":
+          description: Created Page
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Page"
+        "400":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /pages/{pageId}:
+    get:
+      operationId: findPage
+      summary: Find a page.
+      description: Finds a page by id.
+      tags:
+        - Pages
+      parameters:
+        - name: pageId
+          required: true
+          in: path
+          description: page id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Page
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Page"
+        "400":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: updatePage
+      summary: Update a page.
+      description: Updates a page
+      tags:
+        - Pages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Page"
+        description: Payload
+        required: true
+      parameters:
+        - name: pageId
+          required: true
+          in: path
+          description: page id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Updated Page
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Page"
+        "400":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deletePage
+      summary: Delete a page.
+      description: Deletes a page.
+      tags:
+        - Pages
+      parameters:
+        - name: pageId
+          required: true
+          in: path
+          description: page id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Success
+        "400":
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /system/ping:
+    get:
+      summary: System ping endpoint
+      operationId: ping
+      tags:
+        - system
+      responses:
+        '200':
+          description: System ping response
+          content:
+            text/plain:
+              schema:
+                description: Returns PING
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Page:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        path:
+          type: string
+        uri:
+          type: string
+          readOnly: true
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentBlock'
+        creatorId:
+          type: string
+          format: uuid
+          readOnly: true
+        lastModifierId:
+          type: string
+          format: uuid
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Created date
+          readOnly: true
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Date modified
+          readOnly: true
+          
+    ContentBlock:
+      type: object
+      properties:
+        layout:
+          type: string
+          enum: 
+            - MediaOnTop, MediaOnBottom, SmallMedia
+        title: 
+          type: string
+        textContent:
+          type: string
+        media:  
+          type: string
+  
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
