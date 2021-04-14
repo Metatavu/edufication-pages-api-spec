@@ -284,7 +284,7 @@ components:
       description: | 
         Status of page. 
   
-        * Public pages are publically available, 
+        * Public pages are publicly available
         * Private pages require logged user
         * Draft pages are not synchronized to the CDN service
       enum:
