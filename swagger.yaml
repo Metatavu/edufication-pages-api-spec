@@ -1,11 +1,12 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Edufication Pages API
+  title: Edufication pages API
 security:
   - bearerAuth: []
 paths:
-  /pages:
+
+  /v1/pages:
     get:
       operationId: listPages
       summary: List pages.
@@ -19,32 +20,32 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: List of pages
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Page"
-        "400":
+                  $ref: '#/components/schemas/Page'
+        '400':
           description: Invalid request was sent to the server
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Attempted to make a call with unauthorized client
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     post:
       operationId: createPage
       summary: Create a page.
@@ -55,36 +56,35 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Page"
+              $ref: '#/components/schemas/Page'
         description: Payload
         required: true
       responses:
-        "200":
+        '200':
           description: Created Page
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Page"
-        "400":
+                $ref: '#/components/schemas/Page'
+        '400':
           description: Invalid request was sent to the server
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Attempted to make a call with unauthorized client
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-
-  /pages/{pageId}:
+                $ref: '#/components/schemas/Error'
+  '/v1/pages/{pageId}':
     get:
       operationId: findPage
       summary: Find a page.
@@ -100,30 +100,30 @@ paths:
             type: string
             format: uuid
       responses:
-        "200":
+        '200':
           description: Page
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Page"
-        "400":
+                $ref: '#/components/schemas/Page'
+        '400':
           description: Invalid request was sent to the server
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Attempted to make a call with unauthorized client
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     put:
       operationId: updatePage
       summary: Update a page.
@@ -134,7 +134,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Page"
+              $ref: '#/components/schemas/Page'
         description: Payload
         required: true
       parameters:
@@ -146,30 +146,30 @@ paths:
             type: string
             format: uuid
       responses:
-        "200":
+        '200':
           description: Updated Page
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Page"
-        "400":
+                $ref: '#/components/schemas/Page'
+        '400':
           description: Invalid request was sent to the server
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Attempted to make a call with unauthorized client
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     delete:
       operationId: deletePage
       summary: Delete a page.
@@ -185,27 +185,28 @@ paths:
             type: string
             format: uuid
       responses:
-        "204":
+        '204':
           description: Success
-        "400":
+        '400':
           description: Invalid request was sent to the server
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "403":
+                $ref: '#/components/schemas/Error'
+        '403':
           description: Attempted to make a call with unauthorized client
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-  /system/ping:
+                $ref: '#/components/schemas/Error'
+                
+  /v1/system/ping:
     get:
       summary: System ping endpoint
       operationId: ping
@@ -224,35 +225,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+                
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
   schemas:
     Page:
       type: object
+      required:
+        - path
+        - contentBlocks
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
+          description: Unique
+        status:
+          $ref: '#/components/schemas/PageStatus'
         path:
           type: string
+          description: Path of page. Relative to the root of CDN
         uri:
           type: string
           readOnly: true
-        content:
+          description: Path of page on CDN
+        contentBlocks:
           type: array
+          description: Array of content blocks
           items:
             $ref: '#/components/schemas/ContentBlock'
         creatorId:
+          description: Id of creator
           type: string
           format: uuid
           readOnly: true
         lastModifierId:
+          description: Id of last modifier
           type: string
           format: uuid
           readOnly: true
@@ -266,21 +278,52 @@ components:
           format: date-time
           description: Date modified
           readOnly: true
+        
+    PageStatus:
+      type: string
+      description: | 
+        Status of page. 
+  
+        * Public pages are publicly available
+        * Private pages require logged user
+        * Draft pages are not synchronized to the CDN service
+      enum:
+        - PUBLIC
+        - PRIVATE
+        - DRAFT
           
     ContentBlock:
       type: object
+      description: Single content block on page
+      required:
+        - type
+        - layout
       properties:
         layout:
+          $ref: '#/components/schemas/ContentBlockLayout'
+        title:
           type: string
-          enum: 
-            - MediaOnTop, MediaOnBottom, SmallMedia
-        title: 
-          type: string
+          description: Optional title for the content block
         textContent:
           type: string
-        media:  
+          description: Optional text contents for the content block
+        media:
           type: string
-  
+          format: url
+          description: Optional media URL for the content block
+        link:
+          type: string
+          format: url
+          description: Optional link the content block refers to
+          
+    ContentBlockLayout:
+      type: string
+      description: Predefined layout for given content block
+      enum:
+        - MEDIA_ON_TOP
+        - MEDIA_ON_BOTTOM
+        - MEDIA_SMALL
+          
     Error:
       type: object
       required:
