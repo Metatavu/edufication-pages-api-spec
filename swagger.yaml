@@ -218,6 +218,7 @@ paths:
           content:
             text/plain:
               schema:
+                type: string
                 description: Returns PING
         default:
           description: unexpected error
