@@ -237,6 +237,7 @@ components:
     Page:
       type: object
       required:
+        - status
         - path
         - contentBlocks
       properties:
