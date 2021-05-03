@@ -248,6 +248,8 @@ components:
           description: Unique
         status:
           $ref: '#/components/schemas/PageStatus'
+        private:
+          type: boolean
         path:
           type: string
           description: Path of page. Relative to the root of CDN
@@ -291,7 +293,6 @@ components:
         * Draft pages are not synchronized to the CDN service
       enum:
         - PUBLIC
-        - PRIVATE
         - DRAFT
           
     ContentBlock:
@@ -306,6 +307,9 @@ components:
         title:
           type: string
           description: Optional title for the content block
+        orderInPage:
+          type: integer
+          format: int32
         textContent:
           type: string
           description: Optional text contents for the content block
@@ -322,9 +326,13 @@ components:
       type: string
       description: Predefined layout for given content block
       enum:
-        - MEDIA_ON_TOP
-        - MEDIA_ON_BOTTOM
-        - MEDIA_SMALL
+       - MEDIA_RIGHT
+       - MEDIA_LEFT
+       - MEDIA_RIGHT_ARTICLE
+       - MEDIA_LEFT_ARTICLE
+       - FULLSCREEN_MEDIA
+       - COURSE_ITEM
+       - QUIZ_BLOCK
           
     Error:
       type: object
