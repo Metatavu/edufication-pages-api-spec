@@ -239,6 +239,7 @@ components:
       required:
         - status
         - path
+        - private
         - contentBlocks
       properties:
         id:
