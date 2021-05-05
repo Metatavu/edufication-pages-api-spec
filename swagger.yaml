@@ -497,13 +497,15 @@ components:
     Language:
       type: object
       description: A language
+      required:
+        - language
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
           description: Unique
-        language:
+        name:
           type: string
           
     ContentBlockLayout:
