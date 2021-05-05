@@ -206,6 +206,155 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
                 
+  /v1/languages:
+    get:
+      operationId: listLanguages
+      summary: List languages.
+      description: Lists languages.
+      tags:
+        - Languages
+      responses:
+        '200':
+          description: List of Languages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+        '400':
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createLanguage
+      summary: Create a language.
+      description: Creates a new language.
+      tags:
+        - Languages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Language'
+        description: Payload
+        required: true
+      responses:
+        '200':
+          description: Created Language
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Language'
+        '400':
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/languages/{languageId}:
+    get:
+      operationId: findLanguage
+      summary: Find a language.
+      description: Finds a language by id.
+      tags:
+        - Languages
+      parameters:
+        - name: languageId
+          required: true
+          in: path
+          description: language Id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Language
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Language'
+        '400':
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+    delete:
+      operationId: deleteLanguage
+      summary: Delete a Language.
+      description: Deletes a Language.
+      tags:
+        - Languages
+      parameters:
+        - name: languageId
+          required: true
+          in: path
+          description: page id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Invalid request was sent to the server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Attempted to make a call with unauthorized client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
   /v1/system/ping:
     get:
       summary: System ping endpoint
@@ -326,6 +475,7 @@ components:
         quiz:
           $ref: '#/components/schemas/Quiz'
           
+          
     Quiz:
       nullable: true
       type: object
@@ -343,6 +493,20 @@ components:
           type: integer
           format: int32
           description: Correct answer index
+          
+    Language:
+      type: object
+      description: A language
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Unique
+        name:
+          type: string
           
     ContentBlockLayout:
       type: string
