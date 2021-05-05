@@ -325,7 +325,6 @@ components:
         quiz:
           $ref: '#/components/schemas/Quiz'
           
-          
     Quiz:
       nullable: true
       type: object
