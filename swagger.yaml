@@ -498,7 +498,7 @@ components:
       type: object
       description: A language
       required:
-        - language
+        - name
       properties:
         id:
           type: string
