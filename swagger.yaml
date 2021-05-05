@@ -215,7 +215,7 @@ paths:
         - Languages
       responses:
         '200':
-          description: List of Langues
+          description: List of Languages
           content:
             application/json:
               schema:
