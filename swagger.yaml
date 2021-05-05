@@ -322,6 +322,27 @@ components:
           type: string
           format: url
           description: Optional link the content block refers to
+        quiz:
+          $ref: '#/components/schemas/Quiz'
+          
+          
+    Quiz:
+      nullable: true
+      type: object
+      description: A quiz on a contentblock
+      properties:
+        text:
+          type: string
+          description: Quiz text
+        options:
+          type: array
+          description: Quiz answer options
+          items:
+            type: string
+        correctIndex:
+          type: integer
+          format: int32
+          description: Correct answer index
           
     ContentBlockLayout:
       type: string
