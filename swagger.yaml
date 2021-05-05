@@ -302,6 +302,7 @@ components:
       required:
         - type
         - layout
+        - orderInPage
       properties:
         layout:
           $ref: '#/components/schemas/ContentBlockLayout'
