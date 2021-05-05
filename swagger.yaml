@@ -390,6 +390,7 @@ components:
         - path
         - private
         - contentBlocks
+        - language
       properties:
         id:
           type: string
@@ -403,6 +404,9 @@ components:
         path:
           type: string
           description: Path of page. Relative to the root of CDN
+        language:
+          type: string
+          description: Language of page
         uri:
           type: string
           readOnly: true
