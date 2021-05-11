@@ -211,6 +211,7 @@ paths:
       operationId: listLanguages
       summary: List languages.
       description: Lists languages.
+      security: []
       tags:
         - Languages
       responses:
