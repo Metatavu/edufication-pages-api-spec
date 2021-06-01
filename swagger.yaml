@@ -456,7 +456,6 @@ components:
       type: object
       description: Single content block on page
       required:
-        - type
         - layout
         - orderInPage
       properties:
