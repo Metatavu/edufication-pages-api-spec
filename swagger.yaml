@@ -537,6 +537,7 @@ components:
         - FULLSCREEN_MEDIA
         - COURSE_ITEM
         - QUIZ_BLOCK
+        - GRID_BLOCK
 
     Error:
       type: object
