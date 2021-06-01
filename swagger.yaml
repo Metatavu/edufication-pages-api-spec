@@ -6,6 +6,27 @@ security:
   - bearerAuth: []
 paths:
 
+  /v1/system/ping:
+    get:
+      summary: System ping endpoint
+      operationId: ping
+      tags:
+        - system
+      responses:
+        '200':
+          description: System ping response
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Returns PING
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /v1/pages:
     get:
       operationId: listPages
@@ -84,6 +105,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
   '/v1/pages/{pageId}':
     get:
       operationId: findPage
@@ -205,7 +227,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /v1/languages:
     get:
       operationId: listLanguages
@@ -279,6 +301,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
   /v1/languages/{languageId}:
     get:
       operationId: findLanguage
@@ -319,7 +342,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
     delete:
       operationId: deleteLanguage
       summary: Delete a Language.
@@ -355,28 +378,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
-  /v1/system/ping:
-    get:
-      summary: System ping endpoint
-      operationId: ping
-      tags:
-        - system
-      responses:
-        '200':
-          description: System ping response
-          content:
-            text/plain:
-              schema:
-                type: string
-                description: Returns PING
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-                
+
 components:
   securitySchemes:
     bearerAuth:
@@ -437,24 +439,23 @@ components:
           format: date-time
           description: Date modified
           readOnly: true
-        
+
     PageStatus:
       type: string
-      description: | 
-        Status of page. 
-  
+      description: |
+        Status of page.
+
         * Public pages are publicly available
         * Private pages require logged user
         * Draft pages are not synchronized to the CDN service
       enum:
         - PUBLIC
         - DRAFT
-          
+
     ContentBlock:
       type: object
       description: Single content block on page
       required:
-        - type
         - layout
         - orderInPage
       properties:
@@ -474,13 +475,25 @@ components:
           format: url
           description: Optional media URL for the content block
         link:
-          type: string
-          format: url
-          description: Optional link the content block refers to
+          $ref: '#/components/schemas/Link'
         quiz:
           $ref: '#/components/schemas/Quiz'
-          
-          
+
+    Link:
+      type: object
+      description: Optional link the content block refers to
+      required:
+        - title
+        - url
+      properties:
+        title:
+          type: string
+          description: Link title
+        url:
+          type: string
+          format: url
+          description: Link URL
+
     Quiz:
       nullable: true
       type: object
@@ -498,7 +511,7 @@ components:
           type: integer
           format: int32
           description: Correct answer index
-          
+
     Language:
       type: object
       description: A language
@@ -512,19 +525,19 @@ components:
           description: Unique
         name:
           type: string
-          
+
     ContentBlockLayout:
       type: string
       description: Predefined layout for given content block
       enum:
-       - MEDIA_RIGHT
-       - MEDIA_LEFT
-       - MEDIA_RIGHT_ARTICLE
-       - MEDIA_LEFT_ARTICLE
-       - FULLSCREEN_MEDIA
-       - COURSE_ITEM
-       - QUIZ_BLOCK
-          
+        - MEDIA_RIGHT
+        - MEDIA_LEFT
+        - MEDIA_RIGHT_ARTICLE
+        - MEDIA_LEFT_ARTICLE
+        - FULLSCREEN_MEDIA
+        - COURSE_ITEM
+        - QUIZ_BLOCK
+
     Error:
       type: object
       required:
