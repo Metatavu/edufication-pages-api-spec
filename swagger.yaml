@@ -395,8 +395,6 @@ components:
         - private
         - contentBlocks
         - language
-        - parentPage
-        - childPages
       properties:
         id:
           type: string
