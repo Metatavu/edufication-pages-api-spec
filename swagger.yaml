@@ -390,6 +390,7 @@ components:
     Page:
       type: object
       required:
+        - template
         - status
         - path
         - private
@@ -401,6 +402,9 @@ components:
           format: uuid
           readOnly: true
           description: Unique
+        template:
+          $ref: '#/components/schemas/PageTemplate'
+          readOnly: true
         parentPage:
           $ref: '#/components/schemas/PageReference'
           readOnly: true
@@ -476,6 +480,13 @@ components:
       enum:
         - PUBLIC
         - DRAFT
+
+    PageTemplate:
+      type: string
+      enum:
+        - EDUFICATION
+        - ROBOCOAST
+        - INHERIT
 
     ContentBlock:
       type: object
