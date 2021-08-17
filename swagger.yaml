@@ -386,6 +386,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+
     Page:
       type: object
       required:
@@ -400,6 +401,14 @@ components:
           format: uuid
           readOnly: true
           description: Unique
+        parentPage:
+          $ref: '#/components/schemas/PageReference'
+          readOnly: true
+        childPages:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/PageReference'
         status:
           $ref: '#/components/schemas/PageStatus'
         private:
@@ -439,6 +448,22 @@ components:
           format: date-time
           description: Date modified
           readOnly: true
+
+    PageReference:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Page id
+        path:
+          type: string
+          description: Path of page. Relative to the root of CDN
+        uri:
+          type: string
+          readOnly: true
+          description: Path of page on CDN
 
     PageStatus:
       type: string
