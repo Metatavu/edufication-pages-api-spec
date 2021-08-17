@@ -514,6 +514,10 @@ components:
           $ref: '#/components/schemas/Link'
         quiz:
           $ref: '#/components/schemas/Quiz'
+        navigationItems:
+          type: 'array'
+          items: 
+            $ref: '#/components/schemas/NavigationItem'
 
     Link:
       type: object
@@ -522,6 +526,26 @@ components:
         - title
         - url
       properties:
+        title:
+          type: string
+          description: Link title
+        url:
+          type: string
+          format: url
+          description: Link URL
+
+    NavigationItem:
+      type: object
+      description: Optional link the content block refers to
+      required:
+        - title
+        - url
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Navigation item id
         title:
           type: string
           description: Link title
