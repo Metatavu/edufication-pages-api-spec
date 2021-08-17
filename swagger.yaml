@@ -514,6 +514,10 @@ components:
           $ref: '#/components/schemas/Link'
         quiz:
           $ref: '#/components/schemas/Quiz'
+        naviItems:
+          type: 'array'
+          items: 
+            $ref: '#/components/schemas/Link'
 
     Link:
       type: object
