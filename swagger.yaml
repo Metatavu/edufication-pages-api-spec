@@ -402,6 +402,8 @@ components:
           format: uuid
           readOnly: true
           description: Unique
+        title:
+          type: string
         template:
           $ref: '#/components/schemas/PageTemplate'
           readOnly: true
