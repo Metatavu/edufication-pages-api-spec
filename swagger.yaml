@@ -555,6 +555,10 @@ components:
           type: string
           format: url
           description: Link URL
+        imageUrl:
+          type: string
+          format: url
+          description: Image URL
 
     Quiz:
       nullable: true
