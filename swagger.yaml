@@ -498,6 +498,10 @@ components:
         - layout
         - orderInPage
       properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
         layout:
           $ref: '#/components/schemas/ContentBlockLayout'
         title:
